@@ -2,32 +2,54 @@
   <div id="app">
     <PosterBg :poster="posterBg" />
     <MoviesList :list="moviesList" @changePoster="onChangePoster" />
+    <MoviesPagination
+      :current-page="currentPage"
+      :pre-page="moviesPerPage"
+      :total="moviesLength"
+      @pageChanged="onPageChanged"
+    />
   </div>
 </template>
 
 <script>
 import MoviesList from "@/components/MoviesList";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import PosterBg from "@/components/PosterBg";
+import MoviesPagination from "@/components/MoviesPagination";
 export default {
   name: "App",
   components: {
     MoviesList,
-    PosterBg
+    PosterBg,
+    MoviesPagination
   },
   data() {
     return {
       posterBg: ""
     };
   },
+
   computed: {
-    ...mapGetters("movies", ["moviesList"])
+    ...mapGetters("movies", ["moviesList", "currentPage", "moviesPerPage", "moviesLength"])
+  },
+  watch: {
+    "$route.query": {
+      handler: "onPageQueryChanged",
+      immediate: true,
+      deep: true
+    }
   },
 
   methods: {
+    ...mapActions("movies", ["changeCurrentPage"]),
+    onPageQueryChanged({ page = 1 }) {
+      this.changeCurrentPage(Number(page));
+    },
     onChangePoster(poster) {
-      console.log(poster);
       this.posterBg = poster;
+    },
+    onPageChanged(page) {
+      this.$router.push({ query: { page } });
     }
   }
 };
