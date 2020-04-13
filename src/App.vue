@@ -1,18 +1,24 @@
 <template>
   <div id="app">
-    <div>
-      <b-button>Button</b-button>
-      <b-button variant="danger">Button</b-button>
-      <b-button variant="success">Button</b-button>
-      <b-button variant="outline-primary">Button</b-button>
-    </div>
+    <MoviesList :list="moviesList" />
   </div>
 </template>
 
 <script>
+import MoviesList from "@/components/MoviesList";
+import { mapGetters } from "vuex";
 export default {
-  name: 'App',
-  components: {}
+  name: "App",
+  components: {
+    MoviesList
+  },
+  computed: {
+    ...mapGetters("movies", ["moviesList"])
+  },
+
+  methods: {
+    // ...mapActions('movies', ['fetchMovies'])
+  }
 };
 </script>
 
