@@ -30,7 +30,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters("movies", ["moviesList", "currentPage", "moviesPerPage", "moviesLength"])
+    ...mapGetters("movies", [
+      "moviesList",
+      "currentPage",
+      "moviesPerPage",
+      "moviesLength"
+    ])
   },
   watch: {
     "$route.query": {
@@ -62,5 +67,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  overflow-y: auto;
+  height: 100vh;
 }
 </style>
